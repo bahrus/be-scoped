@@ -2,9 +2,18 @@
   "name": "be-scoped",
   "version": "0.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "be-scoped.js",
+  "module": "be-scoped.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "package-check": "package-check"
+  },
+  "dependencies": {
+    "be-decorated": "0.0.165",
+    "be-observant": "0.0.149",
+    "trans-render": "0.0.618"
+  },
+  "devDependencies": {
+    "@skypack/package-check": "0.2.2"
   },
   "repository": {
     "type": "git",
