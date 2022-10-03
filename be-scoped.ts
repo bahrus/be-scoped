@@ -2,7 +2,7 @@ import {define, BeDecoratedProps} from 'be-decorated/be-decorated.js';
 import {register} from "be-hive/register.js";
 import {Actions, PP, Proxy} from './types';
 
-export class BeScoping implements Actions{
+export class BeScoped implements Actions{
     async intro(proxy: Proxy, self: Element){
         const {PropertyBag} = await import('trans-render/lib/PropertyBag.js');
         const pg = new PropertyBag();
@@ -11,9 +11,9 @@ export class BeScoping implements Actions{
     }
 }
 
-const tagName = 'be-scoping';
+const tagName = 'be-scoped';
 
-const ifWantsToBe = 'scoping';
+const ifWantsToBe = 'scoped';
 
 const upgrade = '*';
 
@@ -27,7 +27,7 @@ define<Proxy & BeDecoratedProps<Proxy, Actions>, Actions>({
         }
     },
     complexPropDefaults:{
-        controller: BeScoping,
+        controller: BeScoped,
     }
 });
 
