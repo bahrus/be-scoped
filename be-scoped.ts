@@ -1,8 +1,8 @@
-import {define, BeDecoratedProps} from 'be-decorated/be-decorated.js';
+import {define, BeDecoratedProps} from 'be-decorated/DE.js';
 import {register} from "be-hive/register.js";
 import {Actions, PP, Proxy} from './types';
 
-export class BeScoped implements Actions{
+export class BeScoped extends EventTarget implements Actions{
     async intro(proxy: Proxy, self: Element){
         const {PropertyBag} = await import('trans-render/lib/PropertyBag.js');
         const pg = new PropertyBag();

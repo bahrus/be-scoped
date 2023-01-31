@@ -8,9 +8,9 @@
     "package-check": "package-check"
   },
   "dependencies": {
-    "be-decorated": "0.0.165",
-    "be-observant": "0.0.149",
-    "trans-render": "0.0.618"
+    "be-decorated": "0.0.222",
+    "be-observant": "0.0.163",
+    "trans-render": "0.0.664"
   },
   "devDependencies": {
     "@skypack/package-check": "0.2.2"
