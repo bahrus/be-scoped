@@ -1,7 +1,7 @@
 import {BeDecoratedProps, MinimalProxy} from 'be-decorated/types';
 
 export interface EndUserProps{
-
+    assign: any;
 }
 
 export interface VirtualProps extends EndUserProps, MinimalProxy{
@@ -10,12 +10,12 @@ export interface VirtualProps extends EndUserProps, MinimalProxy{
 
 export type Proxy = HTMLScriptElement & VirtualProps;
 
-export interface ProxyProps extends VirtualProps{
+export interface PP extends VirtualProps{
     proxy: Proxy
 }
 
-export type PP = ProxyProps;
+export type PPP = Partial<PP>;
 
 export interface Actions{
-    intro(proxy: Proxy, self: Element): void;
+    init(pp: PP): Promise<PPP>;
 }

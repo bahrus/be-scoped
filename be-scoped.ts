@@ -1,13 +1,19 @@
 import {define, BeDecoratedProps} from 'be-decorated/DE.js';
 import {register} from "be-hive/register.js";
-import {Actions, PP, Proxy} from './types';
+import {Actions, PP, Proxy, PPP} from './types';
 
 export class BeScoped extends EventTarget implements Actions{
-    async intro(proxy: Proxy, self: Element){
+
+    async init(pp: PP): Promise<PPP>{
         const {PropertyBag} = await import('trans-render/lib/PropertyBag.js');
         const pg = new PropertyBag();
-        proxy.scope = pg.proxy;
-        proxy.resolved = true;
+        const {assign, self} = pp;
+        Object.assign(pg.proxy, assign);
+        self.setAttribute('itemscope', '');
+        return {
+            scope: pg.proxy,
+            resolved: true,
+        } as PPP;
     }
 }
 
@@ -23,7 +29,13 @@ define<Proxy & BeDecoratedProps<Proxy, Actions>, Actions>({
         propDefaults:{
             upgrade,
             ifWantsToBe,
-            intro: 'intro'
+            virtualProps: ['assign'],
+            proxyPropDefaults: {
+                assign: {},
+            }
+        },
+        actions: {
+            init: 'assign',
         }
     },
     complexPropDefaults:{
