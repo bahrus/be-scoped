@@ -23,6 +23,8 @@ define({
             upgrade,
             ifWantsToBe,
             virtualProps: ['assign'],
+            primaryProp: 'assign',
+            primaryPropReq: true,
             proxyPropDefaults: {
                 assign: {},
             }

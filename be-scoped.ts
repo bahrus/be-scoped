@@ -30,6 +30,8 @@ define<Proxy & BeDecoratedProps<Proxy, Actions>, Actions>({
             upgrade,
             ifWantsToBe,
             virtualProps: ['assign'],
+            primaryProp: 'assign',
+            primaryPropReq: true,
             proxyPropDefaults: {
                 assign: {},
             }
