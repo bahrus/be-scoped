@@ -22,7 +22,7 @@ define({
         propDefaults: {
             upgrade,
             ifWantsToBe,
-            virtualProps: ['assign'],
+            virtualProps: ['assign', 'scope'],
             primaryProp: 'assign',
             primaryPropReq: true,
             proxyPropDefaults: {
