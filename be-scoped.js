@@ -1,14 +1,16 @@
 import { define } from 'be-decorated/DE.js';
 import { register } from "be-hive/register.js";
 export class BeScoped extends EventTarget {
-    async init(pp) {
-        const { PropertyBag } = await import('trans-render/lib/PropertyBag.js');
-        const pg = new PropertyBag();
+    async createScope(pp) {
         const { assign, self } = pp;
-        Object.assign(pg.proxy, assign);
-        self.setAttribute('itemscope', '');
+        delete assign.scope;
+        const { ScopeNavigator } = await import('trans-render/lib/ScopeNavigator.js');
+        const nav = new ScopeNavigator(self);
+        const scope = nav.scope;
+        Object.assign(scope, assign);
         return {
-            scope: pg.proxy,
+            scope,
+            nav,
             resolved: true,
         };
     }
@@ -22,7 +24,7 @@ define({
         propDefaults: {
             upgrade,
             ifWantsToBe,
-            virtualProps: ['assign', 'scope'],
+            virtualProps: ['assign', 'scope', 'nav'],
             primaryProp: 'assign',
             primaryPropReq: true,
             proxyPropDefaults: {
@@ -30,7 +32,10 @@ define({
             }
         },
         actions: {
-            init: 'assign',
+            createScope: {
+                ifAllOf: ['assign'],
+                ifNoneOf: ['scope'],
+            }
         }
     },
     complexPropDefaults: {

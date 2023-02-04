@@ -4,17 +4,20 @@ import {Actions, PP, Proxy, PPP} from './types';
 
 export class BeScoped extends EventTarget implements Actions{
 
-    async init(pp: PP): Promise<PPP>{
-        const {PropertyBag} = await import('trans-render/lib/PropertyBag.js');
-        const pg = new PropertyBag();
+    async createScope(pp: PP): Promise<PPP>{
         const {assign, self} = pp;
-        Object.assign(pg.proxy, assign);
-        self.setAttribute('itemscope', '');
+        delete assign.scope;
+        const {ScopeNavigator} = await import('trans-render/lib/ScopeNavigator.js');
+        const nav = new ScopeNavigator(self);
+        const scope = nav.scope;
+        Object.assign(scope!, assign);
         return {
-            scope: pg.proxy,
+            scope,
+            nav,
             resolved: true,
         } as PPP;
     }
+
 }
 
 const tagName = 'be-scoped';
@@ -29,7 +32,7 @@ define<Proxy & BeDecoratedProps<Proxy, Actions>, Actions>({
         propDefaults:{
             upgrade,
             ifWantsToBe,
-            virtualProps: ['assign', 'scope'],
+            virtualProps: ['assign', 'scope', 'nav'],
             primaryProp: 'assign',
             primaryPropReq: true,
             proxyPropDefaults: {
@@ -37,7 +40,10 @@ define<Proxy & BeDecoratedProps<Proxy, Actions>, Actions>({
             }
         },
         actions: {
-            init: 'assign',
+            createScope:{
+                ifAllOf: ['assign'],
+                ifNoneOf: ['scope'],
+            }
         }
     },
     complexPropDefaults:{
