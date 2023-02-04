@@ -32,16 +32,16 @@ define<Proxy & BeDecoratedProps<Proxy, Actions>, Actions>({
         propDefaults:{
             upgrade,
             ifWantsToBe,
-            virtualProps: ['assign', 'scope', 'nav'],
+            virtualProps: ['assign', 'scope', 'nav', 'isC'],
             primaryProp: 'assign',
             primaryPropReq: true,
             proxyPropDefaults: {
-                assign: {},
+                isC: true,
             }
         },
         actions: {
             createScope:{
-                ifAllOf: ['assign'],
+                ifAllOf: ['isC'],
                 ifNoneOf: ['scope'],
             }
         }

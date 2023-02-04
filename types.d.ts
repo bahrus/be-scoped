@@ -7,7 +7,8 @@ export interface EndUserProps{
 
 export interface VirtualProps extends EndUserProps, MinimalProxy{
     scope: EventTarget;
-    nav: IScopeNavigator
+    nav: IScopeNavigator;
+    isC: boolean;
 }
 
 export type Proxy = HTMLScriptElement & VirtualProps;
