@@ -1,9 +1,23 @@
 {
   "name": "be-scoped",
   "version": "0.0.3",
-  "description": "",
+  "keywords": [
+    "web-components",
+    "web-component",
+    "custom-element",
+    "custom-elements"
+  ],
+  "description": "Create an EventTarget associated with the adorned element that can hold scoped state.",
   "main": "be-scoped.js",
   "module": "be-scoped.js",
+  "exports":{
+    ".": "./be-exportable.js",
+    "./be-exportable.js": "./be-exportable.js"
+  },
+  "files": [
+    "*.*"
+  ],
+  "types": "types.d.ts",
   "scripts": {
     "package-check": "package-check"
   },
