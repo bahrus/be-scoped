@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "be-decorated": "0.0.223",
+    "be-hive": "0.0.82",
     "trans-render": "0.0.665"
   },
   "devDependencies": {
