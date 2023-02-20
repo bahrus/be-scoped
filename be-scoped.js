@@ -4,9 +4,9 @@ export class BeScoped extends EventTarget {
     async createScope(pp) {
         const { assign, self } = pp;
         delete assign.scope;
-        const { ScopeNavigator } = await import('trans-render/lib/ScopeNavigator.js');
-        const nav = new ScopeNavigator(self);
-        const scope = nav.scope;
+        const { CtxNav } = await import('trans-render/lib/CtxNav.js');
+        const nav = new CtxNav(self);
+        const scope = nav.beScoped;
         Object.assign(scope, assign);
         return {
             scope,
