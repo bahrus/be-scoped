@@ -3,7 +3,9 @@ import { register } from "be-hive/register.js";
 export class BeScoped extends EventTarget {
     async createScope(pp) {
         const { assign, self } = pp;
-        delete assign.scope;
+        if (assign instanceof Object) {
+            delete assign.scope;
+        }
         const { CtxNav } = await import('trans-render/lib/CtxNav.js');
         const nav = new CtxNav(self);
         const scope = nav.beScoped;

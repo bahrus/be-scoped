@@ -6,7 +6,10 @@ export class BeScoped extends EventTarget implements Actions{
 
     async createScope(pp: PP): Promise<PPP>{
         const {assign, self} = pp;
-        delete assign.scope;
+        if(assign instanceof Object){
+            delete assign.scope;
+        }
+        
         const {CtxNav} = await import('trans-render/lib/CtxNav.js');
         const nav = new CtxNav(self);
         const scope = nav.beScoped;
