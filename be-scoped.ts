@@ -1,15 +1,14 @@
-import {define, BeDecoratedProps} from 'be-decorated/DE.js';
-import {register} from "be-hive/register.js";
-import {Actions, PP, Proxy, PPP} from './types';
+import {BE, propDefaults, propInfo} from 'be-enhanced/BE.js';
+import {XE} from 'xtal-element/XE.js';
+import {Actions, AllProps, AP, PAP, ProPAP} from './types';
+import {register} from 'be-hive/register.js';
 
-export class BeScoped extends EventTarget implements Actions{
-
-    async createScope(pp: PP): Promise<PPP>{
-        const {assign, self} = pp;
+export class BeScoped extends BE<AP, Actions> implements Actions{
+    async hydrate(self: this): ProPAP {
+        const {assign} = self;
         if(assign instanceof Object){
             delete assign.scope;
         }
-        
         const {CtxNav} = await import('trans-render/lib/CtxNav.js');
         const nav = new CtxNav(self);
         const scope = nav.beScoped;
@@ -18,40 +17,31 @@ export class BeScoped extends EventTarget implements Actions{
             scope,
             nav,
             resolved: true,
-        } as PPP;
+        } as PAP;     
     }
-
 }
 
+export interface BeScoped extends AllProps{}
+
 const tagName = 'be-scoped';
-
 const ifWantsToBe = 'scoped';
-
 const upgrade = '*';
 
-define<Proxy & BeDecoratedProps<Proxy, Actions>, Actions>({
+const xe = new XE<AP, Actions>({
     config:{
         tagName,
-        propDefaults:{
-            upgrade,
-            ifWantsToBe,
-            virtualProps: ['assign', 'scope', 'nav', 'isC'],
-            primaryProp: 'assign',
-            primaryPropReq: true,
-            proxyPropDefaults: {
-                isC: true,
-            }
+        propDefaults: {
+            ...propDefaults,
+            isC: true
+        },
+        propInfo: {
+            ...propInfo
         },
         actions: {
-            createScope:{
-                ifAllOf: ['isC'],
-                ifNoneOf: ['scope'],
-            }
+            hydrate: 'isC'
         }
     },
-    complexPropDefaults:{
-        controller: BeScoped,
-    }
+    superclass: BeScoped
 });
 
 register(ifWantsToBe, upgrade, tagName);

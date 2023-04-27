@@ -1,8 +1,9 @@
-import { define } from 'be-decorated/DE.js';
-import { register } from "be-hive/register.js";
-export class BeScoped extends EventTarget {
-    async createScope(pp) {
-        const { assign, self } = pp;
+import { BE, propDefaults, propInfo } from 'be-enhanced/BE.js';
+import { XE } from 'xtal-element/XE.js';
+import { register } from 'be-hive/register.js';
+export class BeScoped extends BE {
+    async hydrate(self) {
+        const { assign } = self;
         if (assign instanceof Object) {
             delete assign.scope;
         }
@@ -20,28 +21,20 @@ export class BeScoped extends EventTarget {
 const tagName = 'be-scoped';
 const ifWantsToBe = 'scoped';
 const upgrade = '*';
-define({
+const xe = new XE({
     config: {
         tagName,
         propDefaults: {
-            upgrade,
-            ifWantsToBe,
-            virtualProps: ['assign', 'scope', 'nav', 'isC'],
-            primaryProp: 'assign',
-            primaryPropReq: true,
-            proxyPropDefaults: {
-                isC: true,
-            }
+            ...propDefaults,
+            isC: true
+        },
+        propInfo: {
+            ...propInfo
         },
         actions: {
-            createScope: {
-                ifAllOf: ['isC'],
-                ifNoneOf: ['scope'],
-            }
+            hydrate: 'isC'
         }
     },
-    complexPropDefaults: {
-        controller: BeScoped,
-    }
+    superclass: BeScoped
 });
 register(ifWantsToBe, upgrade, tagName);

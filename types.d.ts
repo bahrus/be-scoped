@@ -1,24 +1,24 @@
-import {BeDecoratedProps, MinimalProxy} from 'be-decorated/types';
-import {IScopeNavigator} from 'trans-render/lib/types';
+//import {BeDecoratedProps, MinimalProxy} from 'be-decorated/types';
+//import {IScopeNavigator} from 'trans-render/lib/types';
+import {IBE} from 'be-enhanced/types';
+import { ICtxNav } from 'trans-render/lib/types';
 
-export interface EndUserProps{
-    assign: any;
+export interface EndUserProps extends IBE{
+    assign?: any;
 }
 
-export interface VirtualProps extends EndUserProps, MinimalProxy{
+export interface AllProps extends EndUserProps{
     scope: EventTarget;
-    nav: IScopeNavigator;
     isC: boolean;
+    nav: ICtxNav;
 }
 
-export type Proxy = HTMLScriptElement & VirtualProps;
+export type AP = AllProps;
 
-export interface PP extends VirtualProps{
-    proxy: Proxy
-}
+export type PAP = Partial<AP>;
 
-export type PPP = Partial<PP>;
+export type ProPAP = Promise<PAP>
 
 export interface Actions{
-    createScope(pp: PP): Promise<PPP>;
+    hydrate(self: this): ProPAP;
 }
