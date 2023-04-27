@@ -3,12 +3,12 @@ import { XE } from 'xtal-element/XE.js';
 import { register } from 'be-hive/register.js';
 export class BeScoped extends BE {
     async hydrate(self) {
-        const { assign } = self;
+        const { assign, enhancedElement } = self;
         if (assign instanceof Object) {
             delete assign.scope;
         }
         const { CtxNav } = await import('trans-render/lib/CtxNav.js');
-        const nav = new CtxNav(self);
+        const nav = new CtxNav(enhancedElement);
         const scope = nav.beScoped;
         Object.assign(scope, assign);
         return {

@@ -20,7 +20,8 @@
   ],
   "types": "types.d.ts",
   "scripts": {
-    "package-check": "package-check"
+    "test": "playwright test",
+    "serve": "node node_modules/may-it-serve/serve.js"
   },
   "dependencies": {
     "be-enhanced": "0.0.5",

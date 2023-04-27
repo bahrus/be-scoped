@@ -5,12 +5,12 @@ import {register} from 'be-hive/register.js';
 
 export class BeScoped extends BE<AP, Actions> implements Actions{
     async hydrate(self: this): ProPAP {
-        const {assign} = self;
+        const {assign, enhancedElement} = self;
         if(assign instanceof Object){
             delete assign.scope;
         }
         const {CtxNav} = await import('trans-render/lib/CtxNav.js');
-        const nav = new CtxNav(self);
+        const nav = new CtxNav(enhancedElement);
         const scope = nav.beScoped;
         Object.assign(scope!, assign);
         return {
