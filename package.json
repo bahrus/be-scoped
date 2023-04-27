@@ -15,19 +15,22 @@
     "./be-exportable.js": "./be-exportable.js"
   },
   "files": [
-    "*.*"
+    "*.js",
+    "types.d.ts"
   ],
   "types": "types.d.ts",
   "scripts": {
     "package-check": "package-check"
   },
   "dependencies": {
-    "be-decorated": "0.0.238",
-    "be-hive": "0.0.82",
-    "trans-render": "0.0.671"
+    "be-enhanced": "0.0.5",
+    "be-hive": "0.0.85",
+    "trans-render": "0.0.672",
+    "xtal-element": "0.0.556"
   },
   "devDependencies": {
-    "@skypack/package-check": "0.2.2"
+    "@playwright/test": "1.32.3",
+    "may-it-serve": "0.0.5"
   },
   "repository": {
     "type": "git",
