@@ -2,6 +2,13 @@ import { BE, propDefaults, propInfo } from 'be-enhanced/BE.js';
 import { XE } from 'xtal-element/XE.js';
 import { register } from 'be-hive/register.js';
 export class BeScoped extends BE {
+    static get beConfig() {
+        return {
+            parse: true,
+            primaryPropReq: true,
+            primaryProp: 'assign'
+        };
+    }
     async hydrate(self) {
         const { assign, enhancedElement } = self;
         if (assign instanceof Object) {

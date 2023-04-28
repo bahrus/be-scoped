@@ -24,13 +24,13 @@
     "serve": "node node_modules/may-it-serve/serve.js"
   },
   "dependencies": {
-    "be-enhanced": "0.0.5",
+    "be-enhanced": "0.0.6",
     "be-hive": "0.0.85",
     "trans-render": "0.0.672",
     "xtal-element": "0.0.556"
   },
   "devDependencies": {
-    "@playwright/test": "1.32.3",
+    "@playwright/test": "1.33.0",
     "may-it-serve": "0.0.5"
   },
   "repository": {
