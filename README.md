@@ -23,6 +23,10 @@ beScoped.scope.addEventListener('count', e => {
 });
 ```
 
+## Adorning a custom element
+
+If the desire is to add "scoping" to a custom element, use [be-propagating](https://github.com/bahrus/be-propagating) instead.
+
 [![Playwright Tests](https://github.com/bahrus/be-scoped/actions/workflows/CI.yml/badge.svg?branch=baseline)](https://github.com/bahrus/be-scoped/actions/workflows/CI.yml)
 [![NPM version](https://badge.fury.io/js/be-scoped.png)](http://badge.fury.io/js/be-scoped)
 
