@@ -28,7 +28,38 @@ export class BeScoped extends BE<AP, Actions> implements Actions{
             resolved: true,
         } as PAP;     
     }
+
+    #previousTS = new Map<string, string | number>();
+    async setKeyVal(key: string, val: any, tsKey  = 'timestamp'){
+        switch(typeof val){
+            case 'object':
+                if(Array.isArray(val)){
+                    throw 'NI';
+                }
+                const ts = val[tsKey];
+                if(ts !== undefined){
+                    if(this.#previousTS.has(key) && this.#previousTS.get(key) === ts) return;
+                    this.#previousTS.set(key, ts);
+                }
+                if(!val._isPropagating){
+                    const {PropertyBag} = await import('trans-render/lib/PropertyBag.js');
+                    const pg = new PropertyBag();
+                    const proxy = pg.proxy;
+                    Object.assign(proxy, val);
+                    (<any>this.scope)[key] = val;
+                }else{
+                    Object.assign((<any>this.scope)[key], val);
+                }
+
+                break;
+            default:{
+                (<any>this.scope)[key] = val;
+            }
+        }
+    }
 }
+
+
 
 export interface BeScoped extends AllProps{}
 

@@ -24,6 +24,35 @@ export class BeScoped extends BE {
             resolved: true,
         };
     }
+    #previousTS = new Map();
+    async setKeyVal(key, val, tsKey = 'timestamp') {
+        switch (typeof val) {
+            case 'object':
+                if (Array.isArray(val)) {
+                    throw 'NI';
+                }
+                const ts = val[tsKey];
+                if (ts !== undefined) {
+                    if (this.#previousTS.has(key) && this.#previousTS.get(key) === ts)
+                        return;
+                    this.#previousTS.set(key, ts);
+                }
+                if (!val._isPropagating) {
+                    const { PropertyBag } = await import('trans-render/lib/PropertyBag.js');
+                    const pg = new PropertyBag();
+                    const proxy = pg.proxy;
+                    Object.assign(proxy, val);
+                    this.scope[key] = val;
+                }
+                else {
+                    Object.assign(this.scope[key], val);
+                }
+                break;
+            default: {
+                this.scope[key] = val;
+            }
+        }
+    }
 }
 const tagName = 'be-scoped';
 const ifWantsToBe = 'scoped';

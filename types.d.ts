@@ -21,4 +21,5 @@ export type ProPAP = Promise<PAP>
 
 export interface Actions{
     hydrate(self: this): ProPAP;
+    setKeyVal(key: string, val: any, tsKey?: string): void;
 }
