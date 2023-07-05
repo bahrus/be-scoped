@@ -21,13 +21,14 @@
   "types": "types.d.ts",
   "scripts": {
     "test": "playwright test",
-    "serve": "node node_modules/may-it-serve/serve.js"
+    "serve": "node node_modules/may-it-serve/serve.js",
+    "update": "ncu -u && npm install"
   },
   "dependencies": {
-    "be-enhanced": "0.0.31",
-    "be-hive": "0.0.107",
-    "trans-render": "0.0.690",
-    "xtal-element": "0.0.569"
+    "be-enhanced": "0.0.34",
+    "be-hive": "0.0.111",
+    "trans-render": "0.0.694",
+    "xtal-element": "0.0.572"
   },
   "devDependencies": {
     "@playwright/test": "1.35.1",
