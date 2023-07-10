@@ -8,7 +8,7 @@ export interface EndUserProps extends IBE{
 }
 
 export interface AllProps extends EndUserProps{
-    scope: EventTarget;
+    scope: EventTarget & {[key: string]: any};
     isC: boolean;
     nav: ICtxNav;
 }
