@@ -3,6 +3,7 @@ import {BEConfig} from 'be-enhanced/types';
 import {XE} from 'xtal-element/XE.js';
 import {Actions, AllProps, AP, PAP, ProPAP} from './types';
 import {register} from 'be-hive/register.js';
+import {PropertyBag} from 'trans-render/lib/PropertyBag.js';
 
 export class BeScoped extends BE<AP, Actions> implements Actions{
 
@@ -18,19 +19,21 @@ export class BeScoped extends BE<AP, Actions> implements Actions{
         if(assign instanceof Object){
             delete assign.scope;
         }
-        const {CtxNav} = await import('trans-render/lib/CtxNav.js');
-        const nav = new CtxNav(enhancedElement);
-        const scope = nav.beScoped;
+        //const {CtxNav} = await import('trans-render/lib/CtxNav.js');
+        //const nav = new CtxNav(enhancedElement);
+        const pg = new PropertyBag();
+        const scope = pg.proxy;
+        //const scope = nav.beScoped;
         Object.assign(scope!, assign);
         return {
             scope,
-            nav,
+            //nav,
             resolved: true,
         } as PAP;     
     }
 
     #previousTS = new Map<string, string | number>();
-    async setKeyVal(key: string, val: any, tsKey  = 'timestamp'){
+    setKeyVal(key: string, val: any, tsKey  = 'timestamp'){
         switch(typeof val){
             case 'object':
                 if(Array.isArray(val)){
@@ -42,7 +45,7 @@ export class BeScoped extends BE<AP, Actions> implements Actions{
                     this.#previousTS.set(key, ts);
                 }
                 if(!val._isPropagating){
-                    const {PropertyBag} = await import('trans-render/lib/PropertyBag.js');
+                    //const {PropertyBag} = await import('trans-render/lib/PropertyBag.js');
                     const pg = new PropertyBag();
                     const proxy = pg.proxy;
                     Object.assign(proxy, val);
@@ -71,7 +74,6 @@ const xe = new XE<AP, Actions>({
     config:{
         tagName,
         propDefaults: {
-            ...propDefaults,
             isC: true
         },
         propInfo: {

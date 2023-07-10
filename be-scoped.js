@@ -1,6 +1,7 @@
-import { BE, propDefaults, propInfo } from 'be-enhanced/BE.js';
+import { BE, propInfo } from 'be-enhanced/BE.js';
 import { XE } from 'xtal-element/XE.js';
 import { register } from 'be-hive/register.js';
+import { PropertyBag } from 'trans-render/lib/PropertyBag.js';
 export class BeScoped extends BE {
     static get beConfig() {
         return {
@@ -14,18 +15,20 @@ export class BeScoped extends BE {
         if (assign instanceof Object) {
             delete assign.scope;
         }
-        const { CtxNav } = await import('trans-render/lib/CtxNav.js');
-        const nav = new CtxNav(enhancedElement);
-        const scope = nav.beScoped;
+        //const {CtxNav} = await import('trans-render/lib/CtxNav.js');
+        //const nav = new CtxNav(enhancedElement);
+        const pg = new PropertyBag();
+        const scope = pg.proxy;
+        //const scope = nav.beScoped;
         Object.assign(scope, assign);
         return {
             scope,
-            nav,
+            //nav,
             resolved: true,
         };
     }
     #previousTS = new Map();
-    async setKeyVal(key, val, tsKey = 'timestamp') {
+    setKeyVal(key, val, tsKey = 'timestamp') {
         switch (typeof val) {
             case 'object':
                 if (Array.isArray(val)) {
@@ -38,7 +41,7 @@ export class BeScoped extends BE {
                     this.#previousTS.set(key, ts);
                 }
                 if (!val._isPropagating) {
-                    const { PropertyBag } = await import('trans-render/lib/PropertyBag.js');
+                    //const {PropertyBag} = await import('trans-render/lib/PropertyBag.js');
                     const pg = new PropertyBag();
                     const proxy = pg.proxy;
                     Object.assign(proxy, val);
@@ -61,7 +64,6 @@ const xe = new XE({
     config: {
         tagName,
         propDefaults: {
-            ...propDefaults,
             isC: true
         },
         propInfo: {
