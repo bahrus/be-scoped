@@ -24,12 +24,25 @@ export class BeScoped extends BE<AP, Actions> implements Actions{
         const pg = new PropertyBag();
         const scope = pg.proxy;
         //const scope = nav.beScoped;
-        Object.assign(scope!, assign);
+        if(assign instanceof Object){
+            this.#skipInitAssign = true;
+            Object.assign(scope!, assign);
+        }
+        
         return {
             scope,
             //nav,
             resolved: true,
         } as PAP;     
+    }
+    #skipInitAssign = false;
+    onAssign(self: this){
+        if(this.#skipInitAssign){
+            this.#skipInitAssign = false;
+            return;
+        }
+        const {assign, scope} = self;
+        Object.assign(scope, assign); 
     }
 
     #previousTS = new Map<string, string | number>();
@@ -80,7 +93,10 @@ const xe = new XE<AP, Actions>({
             ...propInfo
         },
         actions: {
-            hydrate: 'isC'
+            hydrate: 'isC',
+            onAssign: {
+                ifAllOf: ['assign', 'resolved']
+            },
         }
     },
     superclass: BeScoped

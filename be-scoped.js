@@ -20,12 +20,24 @@ export class BeScoped extends BE {
         const pg = new PropertyBag();
         const scope = pg.proxy;
         //const scope = nav.beScoped;
-        Object.assign(scope, assign);
+        if (assign instanceof Object) {
+            this.#skipInitAssign = true;
+            Object.assign(scope, assign);
+        }
         return {
             scope,
             //nav,
             resolved: true,
         };
+    }
+    #skipInitAssign = false;
+    onAssign(self) {
+        if (this.#skipInitAssign) {
+            this.#skipInitAssign = false;
+            return;
+        }
+        const { assign, scope } = self;
+        Object.assign(scope, assign);
     }
     #previousTS = new Map();
     setKeyVal(key, val, tsKey = 'timestamp') {
@@ -70,7 +82,10 @@ const xe = new XE({
             ...propInfo
         },
         actions: {
-            hydrate: 'isC'
+            hydrate: 'isC',
+            onAssign: {
+                ifAllOf: ['assign', 'resolved']
+            },
         }
     },
     superclass: BeScoped
