@@ -31,7 +31,7 @@
     "xtal-element": "0.0.579"
   },
   "devDependencies": {
-    "@playwright/test": "1.40.0",
+    "@playwright/test": "1.40.1",
     "may-it-serve": "0.0.6"
   },
   "repository": {

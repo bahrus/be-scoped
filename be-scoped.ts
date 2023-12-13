@@ -11,8 +11,9 @@ export class BeScoped extends BE<AP, Actions> implements Actions{
         return {
             parse: true,
             primaryPropReq: true,
-            primaryProp: 'assign'
-        } as BEConfig
+            primaryProp: 'assign',
+            stateProp: 'scope'
+        } as BEConfig<AP>
     }
     async hydrate(self: this): ProPAP {
         const {assign, enhancedElement} = self;
