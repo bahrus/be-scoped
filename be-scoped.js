@@ -7,7 +7,8 @@ export class BeScoped extends BE {
         return {
             parse: true,
             primaryPropReq: true,
-            primaryProp: 'assign'
+            primaryProp: 'assign',
+            stateProp: 'scope'
         };
     }
     async hydrate(self) {
