@@ -10,6 +10,11 @@ export class BeScoped extends BE implements Actions{
         propDefaults:{
             attached: true,
         },
+        propInfo:{
+            ...beCnfg.propInfo,
+            assign:{},
+            scope: {},
+        },
         actions:{
             hydrate:{
                 ifAllOf: ['attached']

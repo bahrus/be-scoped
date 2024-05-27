@@ -1,8 +1,24 @@
+import { config as beCnfg } from 'be-enhanced/config.js';
 import { BE } from 'be-enhanced/BE.js';
 import { PropertyBag } from 'trans-render/lib/PropertyBag.js';
 export class BeScoped extends BE {
     static config = {
-        propD
+        propDefaults: {
+            attached: true,
+        },
+        propInfo: {
+            ...beCnfg.propInfo,
+            assign: {},
+            scope: {},
+        },
+        actions: {
+            hydrate: {
+                ifAllOf: ['attached']
+            },
+            onAssign: {
+                ifAllOf: ['assign', 'resolved']
+            }
+        }
     };
     async hydrate(self) {
         const { assign, enhancedElement } = self;
