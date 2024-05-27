@@ -5,7 +5,10 @@ const base = 'be-scoped';
 const emc: EnhancementMountCnfg = {
     base,
     map: {
-        '0.0': 'eventName'
+        '0.0': {
+            instanceOf: 'Object',
+            mapsTo: 'assign'
+        }
     },
     enhPropKey: 'beScoped',
     importEnh: async () => {

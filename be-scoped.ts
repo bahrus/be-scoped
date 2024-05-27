@@ -1,11 +1,70 @@
 import {config as beCnfg} from 'be-enhanced/config.js';
 import {BE, BEConfig} from 'be-enhanced/BE.js';
-import {Actions, AllProps, AP, PAP} from './types';
+import {Actions, AllProps, AP, PAP, ProPAP} from './types';
 import { Positractions, PropInfo } from 'trans-render/froop/types';
 import {IEnhancement,  BEAllProps} from 'trans-render/be/types';
+import {PropertyBag} from 'trans-render/lib/PropertyBag.js';
 
 export class BeScoped extends BE implements Actions{
+    async hydrate(self: this): ProPAP {
+        const {assign, enhancedElement} = self;
+        if(assign instanceof Object){
+            delete assign.scope;
+        }
+        //const {CtxNav} = await import('trans-render/lib/CtxNav.js');
+        //const nav = new CtxNav(enhancedElement);
+        const pg = new PropertyBag();
+        const scope = pg.proxy;
+        //const scope = nav.beScoped;
+        if(assign instanceof Object){
+            this.#skipInitAssign = true;
+            Object.assign(scope!, assign);
+        }
+        
+        return {
+            scope,
+            //nav,
+            resolved: true,
+        } as PAP;     
+    }
+    #skipInitAssign = false;
+    onAssign(self: this){
+        if(this.#skipInitAssign){
+            this.#skipInitAssign = false;
+            return;
+        }
+        const {assign, scope} = self;
+        Object.assign(scope, assign); 
+    }
 
+    #previousTS = new Map<string, string | number>();
+    setKeyVal(key: string, val: any, tsKey  = 'timestamp'){
+        switch(typeof val){
+            case 'object':
+                if(Array.isArray(val)){
+                    throw 'NI';
+                }
+                const ts = val[tsKey];
+                if(ts !== undefined){
+                    if(this.#previousTS.has(key) && this.#previousTS.get(key) === ts) return;
+                    this.#previousTS.set(key, ts);
+                }
+                if(!val._isPropagating){
+                    //const {PropertyBag} = await import('trans-render/lib/PropertyBag.js');
+                    const pg = new PropertyBag();
+                    const proxy = pg.proxy;
+                    Object.assign(proxy, val);
+                    (<any>this.scope)[key] = val;
+                }else{
+                    Object.assign((<any>this.scope)[key], val);
+                }
+
+                break;
+            default:{
+                (<any>this.scope)[key] = val;
+            }
+        }
+    }
 }
 
 export interface BeScoped extends AP{}
