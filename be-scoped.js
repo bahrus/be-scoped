@@ -1,6 +1,9 @@
 import { BE } from 'be-enhanced/BE.js';
 import { PropertyBag } from 'trans-render/lib/PropertyBag.js';
 export class BeScoped extends BE {
+    static config = {
+        propD
+    };
     async hydrate(self) {
         const { assign, enhancedElement } = self;
         if (assign instanceof Object) {

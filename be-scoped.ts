@@ -6,6 +6,19 @@ import {IEnhancement,  BEAllProps} from 'trans-render/be/types';
 import {PropertyBag} from 'trans-render/lib/PropertyBag.js';
 
 export class BeScoped extends BE implements Actions{
+    static override config: BEConfig<AllProps & BEAllProps, Actions & IEnhancement, any> = {
+        propDefaults:{
+            attached: true,
+        },
+        actions:{
+            hydrate:{
+                ifAllOf: ['attached']
+            },
+            onAssign: {
+                ifAllOf: ['assign', 'resolved']
+            }
+        }
+    };
     async hydrate(self: this): ProPAP {
         const {assign, enhancedElement} = self;
         if(assign instanceof Object){

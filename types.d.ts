@@ -1,15 +1,15 @@
 //import {BeDecoratedProps, MinimalProxy} from 'be-decorated/types';
 //import {IScopeNavigator} from 'trans-render/lib/types';
-import {IBE} from 'be-enhanced/types';
+import {IEnhancement} from 'trans-render/be/types';
 import { ICtxNav } from 'trans-render/lib/types';
 
-export interface EndUserProps extends IBE{
+export interface EndUserProps extends IEnhancement{
     assign?: any;
 }
 
 export interface AllProps extends EndUserProps{
     scope: EventTarget & {[key: string]: any};
-    isC: boolean;
+    attached: boolean;
     nav: ICtxNav;
 }
 
