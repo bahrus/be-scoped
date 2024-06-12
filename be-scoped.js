@@ -1,7 +1,7 @@
 import { config as beCnfg } from 'be-enhanced/config.js';
 import { BE } from 'be-enhanced/BE.js';
 import { PropertyBag } from 'trans-render/lib/PropertyBag.js';
-export class BeScoped extends BE {
+class BeScoped extends BE {
     static config = {
         propDefaults: {
             attached: true,
@@ -79,3 +79,5 @@ export class BeScoped extends BE {
         }
     }
 }
+await BeScoped.bootUp();
+export { BeScoped };

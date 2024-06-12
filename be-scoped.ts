@@ -5,7 +5,7 @@ import { Positractions, PropInfo } from 'trans-render/froop/types';
 import {IEnhancement,  BEAllProps} from 'trans-render/be/types';
 import {PropertyBag} from 'trans-render/lib/PropertyBag.js';
 
-export class BeScoped extends BE implements Actions{
+class BeScoped extends BE implements Actions{
     static override config: BEConfig<AllProps & BEAllProps, Actions & IEnhancement, any> = {
         propDefaults:{
             attached: true,
@@ -85,4 +85,8 @@ export class BeScoped extends BE implements Actions{
     }
 }
 
-export interface BeScoped extends AP{}
+await BeScoped.bootUp();
+
+interface BeScoped extends AP{}
+
+export {BeScoped}
