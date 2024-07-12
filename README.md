@@ -1,15 +1,15 @@
-# be-scoped (⌖)
+# be-scoped (💰)
 
 Create an EventTarget associated with the adorned element that can hold scoped state.
 
 ```html
-<div id="scoped" be-scoped='{"count": 30}'></div>
+<div itemscope=💰 id="scoped" 💰='{"count": 30}'></div>
 ```
 
 ...results in:
 
 ```JavaScript
-console.log(scoped.beEnhanced.beScoped.scope.count === 30)
+console.log(scoped.💰.count === 30)
 //true
 ```
 
