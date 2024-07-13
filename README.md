@@ -1,9 +1,12 @@
-# be-scoped (💰)
+# be-scoped [TODO]
 
 Create an EventTarget associated with the adorned element that can hold scoped state.
 
 ```html
-<div itemscope=💰 id="scoped" 💰='{"count": 30}'></div>
+<div itemscope=💰 id="scoped" 💰='{"count": 30}'>
+    <span itemprop=count></span>
+    <input type=number 🛗 name=count>
+</div>
 ```
 
 ...results in:
@@ -18,7 +21,7 @@ If scope.💰 is undefined, it's fine to start setting values into it.  They wil
 To subscribe to changes to the scope:
 
 ```JavaScript
-scoped.addEventListener.addEventListiner('💰.count', e => {
+scoped.addEventListener.addEventListener('💰.count', e => {
     console.log(e.detail.💰);
 });
 ```
