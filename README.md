@@ -1,25 +1,25 @@
-# be-scoped (⌖)
+# be-scoped (💰)
 
 Create an EventTarget associated with the adorned element that can hold scoped state.
 
 ```html
-<div id="scoped" be-scoped='{"count": 30}'></div>
+<div itemscope=💰 id="scoped" 💰='{"count": 30}'></div>
 ```
 
 ...results in:
 
 ```JavaScript
-console.log(scoped.beEnhanced.beScoped.scope.count === 30)
+console.log(scoped.💰.count === 30)
 //true
 ```
+
+If scope.💰 is undefined, it's fine to start setting values into it.  They will be absorbed into the scope object when it attaches.
 
 To subscribe to changes to the scope:
 
 ```JavaScript
-await customElements.whenDefined('be-enhanced');
-const beScoped = await scoped.beEnhanced.whenResolved('be-scoped');
-beScoped.scope.addEventListener('count', e => {
-    console.log(e.detail);
+scoped.addEventListener.addEventListiner('💰.count', e => {
+    console.log(e.detail.💰);
 });
 ```
 
