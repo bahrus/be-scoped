@@ -3,9 +3,16 @@
 Create an EventTarget associated with the adorned element that can hold scoped state.
 
 ```html
-<div itemscope=💰 id="scoped" 💰='{"count": 30}'>
+<script id=my-fns nomodule>
+    export const myFirstFn = (scope, e) => {
+        console.log({scope, e});
+    }
+</script>
+...
+<div itemscope=💰 id="scoped" 💰='{"count": 30}' 💰-fns="my-fns">
     <span itemprop=count></span>
     <input type=number 🛗 name=count>
+    <button 🕹️=myFirstFn>Invoke myFirstFn</button>
 </div>
 ```
 
