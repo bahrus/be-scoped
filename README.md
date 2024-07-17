@@ -40,11 +40,13 @@ Initially, this enhancement was designed to solve that problem, but providing ac
 
 oTR.beEnhanced.beScoped.scope
 
-However, this doesn't provide a clean way for developers to add their own custom logic as needed into the view model, like they can do with custom elements.
+feels kind of clunky.
 
-So the new approach this enhancement takes, in conjunction with [DSS](https://github.com/bahrus/trans-render/wiki/VIII.--Directed-Scoped-Specifiers-(DSS)#what-do-we-mean-by-hostish), does the following:
+In addition, this doesn't provide a clean way for developers to add their own custom logic as needed into the view model, like they can do with custom elements.
 
-We push the standard HTML voculabulary a tad in order to be as transparent as possible what is happening, pushing the boolean itemscope attribute a little beyond it's recognized platform role:
+So the new approach this enhancement takes, in conjunction with recent enhancements to the [DSS](https://github.com/bahrus/trans-render/wiki/VIII.--Directed-Scoped-Specifiers-(DSS)#what-do-we-mean-by-hostish), is to do the following:
+
+We push the standard HTML voculabulary a tad in order to be as transparent as possible what is happening, stretching the boolean itemscope attribute a little beyond it's recognized platform role:
 
 ```JavaScript
 html`
@@ -82,37 +84,11 @@ function getHostish(el: Element){
 }
 ```
 
+then anywhere we would want to do:  el.getRootNode().host we instead call the function above, then we can work with any combination of solution -- with ShadowDOM, without ShadowDOM, without the ability to contain each item.
 
-```html
-<script id=my-fns nomodule>
-    export const myFirstFn = (scope, e) => {
-        console.log({scope, e});
-    }
-</script>
-...
-<div itemscope=💰 id="scoped" 💰='{"count": 30}' 💰-fns="my-fns">
-    <span itemprop=count></span>
-    <input type=number 🛗 name=count>
-    <button 🕹️=myFirstFn>Invoke myFirstFn</button>
-</div>
-```
+Having established this protocol by necessity, we can then go back to other scenarios where HTML decorum would allow for Shadowless containers, but with the ambiguity of responsibility issue listed above, and use a non visual view model custom element as our general solution.
 
-...results in:
 
-```JavaScript
-console.log(scoped.💰.count === 30)
-//true
-```
-
-If scope.💰 is undefined, it's fine to start setting values into it.  They will be absorbed into the scope object when it attaches.
-
-To subscribe to changes to the scope:
-
-```JavaScript
-scoped.addEventListener.addEventListener('💰.count', e => {
-    console.log(e.detail.💰);
-});
-```
 
 ## Adorning a custom element
 
