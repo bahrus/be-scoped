@@ -13,8 +13,74 @@ ${myList.map(item => html`
 
 Now our custom element can go in one of two ways:  It can use Shadow DOM or not use Shadow DOM.  If using Shadow DOM, the division of labor between the looping code and the custom element is pretty clear -- the looping code is expected to generate any light children, if applicable.  The custom element generates all the content inside the ShadowRoot, and takes a hands-off approach towards the light children.
 
-Things become become much more ambiguous if no ShadowDOM is used.  In my view, if the custom element chooses to generate its own children, that should work fine so long as the "framework" takes a "mind your own business, and don't do unnecessary work" approch to rendering.  The code snippet above, which uses the "framework built into the browser" would certainly do that.  It's unclear to me how uniform that fundamental tenet is adhered to with modern frameworks.  In the past, during the heyday of VDOM arrogance, I would see instances where the framework would appear to go through the thought process ("hey", I didn't generate those child elements, how dare anyone give birth I didn't give permission to, I a going blow that all away" on a re-render).
+Things become become much more ambiguous if no ShadowDOM is used.  In my view, if the custom element chooses to generate its own children, that should work fine so long as the "framework" takes a "mind your own business, and don't do unnecessary work" approch to rendering.  The code snippet above, which uses the "framework built into the browser" would certainly do that.  It's unclear to me how uniform that fundamental tenet is adhered to with modern frameworks.  In the past, during the heyday of VDOM arrogance, I would see instances where the framework would appear to go through the thought process:  "hey, I didn't generate those child elements, how dare anyone give birth I didn't give permission to? I a going blow that all away" on a re-render.  I can't vouch for what the latest state of the art browsers do, just be forwarned.
 
+Anyway, for the scenarios listed above, this custom enhancement doesn't add any value.
+
+Where this enhancement may help is with another approach to looping.  Let's consider first a scenario where we are almost forced to adopt an alternative:  Where the looping code is generating rows (tr elements) of the HTMLTable element:
+
+```JavaScript
+html`
+<table>
+    <thead><th>Name</th><th>SSN Number</thead>
+    <tbody>
+${myList.map(item => html`
+    <tr>
+        <td>${item.name}</td>
+        <td>${item.ssn}</td>
+`)}
+    </tbody>
+</table>
+`
+```
+
+While the example above so far poses no issues, we start to immediately get a sense of unease the moment we need to perform actions on individual rows.  How do we get access to the view model item associated with the row?  We start inventing ways to handle this, with id's, lots of ugly look ups, etc.  So we could have the thought "Hey, why don't I create a web component to contain each row, that can encapsulate the view model for each item of the list"? but of course the HTML decorum for tables doesn't allow us to do that.
+
+Initially, this enhancement was designed to solve that problem, but providing access to that view model via the custom enhancement protocol:
+
+oTR.beEnhanced.beScoped.scope
+
+However, this doesn't provide a clean way for developers to add their own custom logic as needed into the view model, like they can do with custom elements.
+
+So the new approach this enhancement takes, in conjunction with [DSS](https://github.com/bahrus/trans-render/wiki/VIII.--Directed-Scoped-Specifiers-(DSS)#what-do-we-mean-by-hostish), does the following:
+
+We push the standard HTML voculabulary a tad in order to be as transparent as possible what is happening, pushing the boolean itemscope attribute a little beyond it's recognized platform role:
+
+```JavaScript
+html`
+<table>
+    <thead><th>Name</th><th>SSN Number</thead>
+    <tbody>
+${myList.map(item => html`
+    <tr itemscope=my-item>
+        <td>
+            <my-item .item=${item}
+            ${item.name}
+        </td>
+        <td>${item.ssn}</td>
+`)}
+    </tbody>
+</table>
+`
+```
+
+So then if the libraries we work with have an easy-to-reproduce-in-any-framework "virtual host" getter that includes logic like this:
+
+```JavaScript
+function getHostish(el: Element){
+    const closestItemScope = el.closest('itemscope');
+    if(closestItemScope !== null){
+        if(closestItemScope.localName.indexOf('-')){
+            //it's a custom element so this is probably our host
+            return closestItemScope;
+        }
+        const attr = closestItemScope.getAttribute('itemscope');
+        return closestItemScope.querySelector(attr);
+    }
+    //get shadow root host
+    return el.getRootNode().host;
+}
+```
 
 
 ```html
