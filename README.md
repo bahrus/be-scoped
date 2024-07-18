@@ -120,7 +120,7 @@ which will end up doing an Object.assign (gingerly) of the item object to the my
 It can also do the same for server generated JSON attributes:
 
 ```JavaScript
-html`
+
 <table>
     <thead><th>Name</th><th>SSN Number</thead>
     <tbody>
@@ -132,7 +132,7 @@ html`
         <td>123-45-6789</td>
     </tbody>
 </table>
-`
+
 ```
 
 [![Playwright Tests](https://github.com/bahrus/be-scoped/actions/workflows/CI.yml/badge.svg?branch=baseline)](https://github.com/bahrus/be-scoped/actions/workflows/CI.yml)
