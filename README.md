@@ -37,7 +37,7 @@ ${myList.map(item => html`
 
 While the example above so far poses no issues, we start to immediately get a sense of unease the moment we need to start performing intimate actions on individual rows / items of the view model.  How do we get access to the view model item associated with the row?  We start inventing ways to handle this, with id's, lots of ugly look ups, etc.  So we could have the fleeting thought "Hey, why don't I create a web component to contain each row, that can encapsulate the view model for each item of the list"? but of course the HTML decorum for tables doesn't allow us to do that.
 
-I would venture that this problem space accounts account for part of the appeal that frameworks bring to the table, beyond what can be handled by custom elements alone, thus causing framework "lock-in" due to there not being an interoperable solution to this problem.
+I would venture that this problem space accounts for part of the appeal that frameworks bring to the table, beyond what can be handled by custom elements alone, thus causing framework "lock-in," due to there not being an interoperable solution to this problem.
 
 Initially, this enhancement was designed to solve that problem, by providing access to that view model via the custom enhancement protocol:
 
