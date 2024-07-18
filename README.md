@@ -1,7 +1,7 @@
 # be-scoped [TODO]
 
-Sometimes when we are generating a loop of HTML on the server or on the client, we need a convenient place to hold the view model responsible for 
-managing the view model or state for each HTML section of the loop.
+Sometimes when we are generating a loop of HTML on the server or on the client, we need a convenient place to pass the view model responsible for 
+generating the data that gets interspersed into the HTML section of the loop.
 
 One way this can be done is with an extremely light-weight rendering from the looping code (again, either on the server or the client) -- just rendering a single tag of a custom element for each iteration of the loop, and passing in the data for the view model, and let the custom element take care of the rest:
 
