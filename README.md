@@ -35,21 +35,21 @@ ${myList.map(item => html`
 `
 ```
 
-While the example above so far poses no issues, we start to immediately get a sense of unease the moment we need to start performing intimate actions on individual rows / items of the view model.  How do we get access to the view model item associated with the row?  We start inventing ways to handle this, with id's, lots of ugly look ups, etc.  So we could have the fleeting thought "Hey, why don't I create a web component to contain each row, that can encapsulate the view model for each item of the list"? but of course the HTML decorum for tables doesn't allow us to do that.
+While the example above so far poses no issues, we start to immediately get a sense of unease the moment we need to start performing intimate actions on individual rows / items of the view model.  How do we get access to the view model item associated with the row?  We start inventing ways to handle this, with id's, lots of ugly look ups, etc.  So we could have the fleeting thought "Hey, why don't I create a web component to contain each row, that can encapsulate the view model for each item of the list"? But of course the HTML decorum for tables doesn't allow us to do that.
 
-I would venture that this problem space accounts for part of the appeal that frameworks bring to the table, beyond what can be handled by custom elements alone, thus causing framework "lock-in," due to there not being an interoperable solution to this problem.
+I would venture that this problem space accounts for part of the appeal that frameworks bring to the table, beyond what can be handled by custom elements alone.  Lack of an interoperable solution to this fundamental problem may be partly to blame for causing this  framework "lock-in." We need an interoperable solution to this problem.
 
 Initially, this enhancement was designed to solve that problem, by providing access to that view model via the custom enhancement protocol:
 
 oTR.beEnhanced.beScoped.scope
 
-But that approach felt kind of clunky to me.
+But that approach felt kind of clunky to me (not to mention how wildly beyond the capabilities of any framework in use today to be able to leverage).
 
 In addition, this doesn't provide a clean way for developers to add their own custom logic as needed into the view model, like they can do with custom elements.
 
-So the new approach this enhancement takes, in conjunction with recent enhancements to the [DSS](https://github.com/bahrus/trans-render/wiki/VIII.--Directed-Scoped-Specifiers-(DSS)#what-do-we-mean-by-hostish), is to do the following:
+So the new approach this enhancement takes is to work in conjunction with recent enhancements to the [DSS](https://github.com/bahrus/trans-render/wiki/VIII.--Directed-Scoped-Specifiers-(DSS)#what-do-we-mean-by-hostish), is to do the following:
 
-We push the standard HTML voculabulary a tad in order to be as transparent as possible what is happening, stretching the boolean itemscope attribute a little beyond it's recognized platform role:
+We push the standard HTML vocabulary a tad in order to be as transparent as possible as far as what is happening, stretching the boolean [itemscope attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Global_attributes/itemscope) a little beyond its recognized platform role:
 
 ```JavaScript
 html`
@@ -59,7 +59,7 @@ html`
 ${myList.map(item => html`
     <tr itemscope=my-item>
         <td>
-            <my-item .item=${item}
+            <my-item .item=${item}></my-item>
             ${item.name}
         </td>
         <td>${item.ssn}</td>
@@ -69,10 +69,10 @@ ${myList.map(item => html`
 `
 ```
 
-So then if the libraries we work with have an easy-to-reproduce-in-any-framework "virtual host" getter that includes logic like this:
+So then if the libraries we work with have an easy-to-reproduce-in-any-framework "virtual host" getter that includes logic something like this:
 
 ```JavaScript
-function getHostish(el: Element){
+async function getHostish(el: Element){
     const closestItemScope = el.closest('itemscope');
     if(closestItemScope !== null){
         if(closestItemScope.localName.indexOf('-')){
@@ -87,15 +87,37 @@ function getHostish(el: Element){
 }
 ```
 
-then anywhere we would want to do:  el.getRootNode().host we instead call the function above, then we can work with any combination of solution -- with ShadowDOM, without ShadowDOM, without the ability to contain each item.
+then anywhere we would want to do:  el.getRootNode().host we instead call the function above, then we can work with any combination of solution -- with ShadowDOM, without ShadowDOM, as well as scenarios where neither works, because we can't contain each HTML item, as discussed above.
 
-Having established this protocol by necessity, we can then go back to other scenarios where HTML decorum would allow for Shadowless containers, but with the ambiguity of responsibility issue listed above, and use a non visual view model custom element as our general solution.
+In other words, having established this protocol by necessity, we can then go back to other scenarios where HTML decorum would allow for Shadowless containers, but with the ambiguity of responsibility issue listed above, and use a non visual view model custom element as our general solution, that can then circumvent some of the sticky questions regarding division of responsibility.
+
+## So what does be-scoped do?
+
+It commits a secondary sin, and attaches a property getter, "assignGingerly" to elements that commit the cardinal sin of  adding attribute "itemscope" that has a value pointing to the name of an inner custom element.
+
+Frameworks can then pass objects (not primitives) directly to the element:
+
+```JavaScript
+html`
+<table>
+    <thead><th>Name</th><th>SSN Number</thead>
+    <tbody>
+${myList.map(item => html`
+    <tr itemscope=my-item be-scoped .assignGingerly=${item}>
+        <td>
+            <my-item></my-item>
+            ${item.name}
+        </td>
+        <td>${item.ssn}</td>
+`)}
+    </tbody>
+</table>
+`
+```
+
+which will end up doing an Object.assign (gingerly) of the item object to the my-item custom element.
 
 
-
-## Adorning a custom element
-
-If the desire is to add "scoping" to a custom element, use [be-propagating](https://github.com/bahrus/be-propagating) instead.
 
 [![Playwright Tests](https://github.com/bahrus/be-scoped/actions/workflows/CI.yml/badge.svg?branch=baseline)](https://github.com/bahrus/be-scoped/actions/workflows/CI.yml)
 [![NPM version](https://badge.fury.io/js/be-scoped.png)](http://badge.fury.io/js/be-scoped)
