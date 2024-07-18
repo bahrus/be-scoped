@@ -117,7 +117,23 @@ ${myList.map(item => html`
 
 which will end up doing an Object.assign (gingerly) of the item object to the my-item custom element.
 
+It can also do the same for server generated JSON attributes:
 
+```JavaScript
+html`
+<table>
+    <thead><th>Name</th><th>SSN Number</thead>
+    <tbody>
+    <tr itemscope=my-item be-scoped assign-gingerly='{"name": "Burt", "ssn": "123-45-6789"}'>
+        <td>
+            <my-item></my-item>
+            Burt
+        </td>
+        <td>123-45-6789</td>
+    </tbody>
+</table>
+`
+```
 
 [![Playwright Tests](https://github.com/bahrus/be-scoped/actions/workflows/CI.yml/badge.svg?branch=baseline)](https://github.com/bahrus/be-scoped/actions/workflows/CI.yml)
 [![NPM version](https://badge.fury.io/js/be-scoped.png)](http://badge.fury.io/js/be-scoped)
