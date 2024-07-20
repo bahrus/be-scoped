@@ -1,5 +1,9 @@
 # be-scoped [TODO]
 
+be-scoped has been deprecate for now.
+
+Use [be-gingerly](https://github.com/bahrus/be-gingerly) instead.
+
 Sometimes when we are generating a loop of HTML on the server or on the client, we need a convenient place to pass the view model responsible for 
 generating the data that gets interspersed into the HTML section of the loop.
 
