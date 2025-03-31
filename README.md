@@ -1,6 +1,23 @@
-# be-scoped [TODO]
+# be-scoped (🎯) [TODO]
 
-be-scoped has been deprecate for now.
+be-scoped has been deprecated for now.
+
+```html
+<table>
+    <tr id=testRow aria-rowindex=11 be-scoped 📌-a="aria-rowindex as number">
+    </tr>
+</table>
+<script>
+    const beLet = testRow.beEnhanced.beLet;
+    console.log(beLet.props.a - 3);
+    // 8
+    beLet.props.addEventListener('a', e => {
+        console.log(beLet.props.a - 3);
+        //2
+    });
+    testRow.ariaRowindex = 5;
+</script>
+```
 
 Use [be-gingerly](https://github.com/bahrus/be-gingerly) instead.
 
