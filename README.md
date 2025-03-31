@@ -7,9 +7,11 @@ be-scoped has in the processing of being resurrected, possibly.
         <tr id=testRow 
         aria-rowindex=11   
         📌-a="aria-rowindex as number"
-        be-scoped=~my-list@idx
+        be-scoped="from ~my-list@idx to my-item"
     >
     </tr>
 </table>
 ```
+
+ishList
 
