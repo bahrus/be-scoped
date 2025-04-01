@@ -1,6 +1,6 @@
 # be-scoped (🎯) [TODO]
 
-be-scoped i in the process of being resurrected, possibly.
+be-scoped is in the process of being resurrected, possibly.
 
 ```html
 <table itemscope=my-list>
