@@ -8,7 +8,7 @@ be-scoped is in the process of being resurrected, possibly.
         <tr id=testRow 
         aria-rowindex=11   
         📌-idx="aria-rowindex"
-        🎯="${my-list}?.[📌?.idx] to my-item"
+        🎯="${my-list}?.$[📌?.idx] to my-item"
     >
     </tr>
 </table>
