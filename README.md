@@ -32,7 +32,7 @@ be-scoped is in the process of being resurrected, possibly.
                 <td itemprop=bronze></td>
                 <td><span itemprop=total></span> of <span -o=totalMedalCount></span></td>
             </tr>
-            <template 🎚️="on when isExpanded">
+            <template be-switched="on when ^({tr})~plusMinus?.isExpanded">
                 <tr be-scoped-into="country-medal-count and national-medal-list">
                     <td colspan=7>
                         <medal-ment></medal-ment>
@@ -49,7 +49,7 @@ be-scoped is in the process of being resurrected, possibly.
 
 What this does:
 
-"Attaches itself" into the "ish" view models that are attached to the table and tr elements:
+"Attaches itself" into the "ish" view models that are attached (by mount-observer) to the table and tr elements:
 
 ```JavaScript
 
