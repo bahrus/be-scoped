@@ -1,16 +1,25 @@
-import { BE, propInfo } from 'be-enhanced/BE.js';
-import { XE } from 'xtal-element/XE.js';
-import { register } from 'be-hive/register.js';
+import { config as beCnfg } from 'be-enhanced/config.js';
+import { BE } from 'be-enhanced/BE.js';
 import { PropertyBag } from 'trans-render/lib/PropertyBag.js';
-export class BeScoped extends BE {
-    static get beConfig() {
-        return {
-            parse: true,
-            primaryPropReq: true,
-            primaryProp: 'assign',
-            stateProp: 'scope'
-        };
-    }
+class BeScoped extends BE {
+    static config = {
+        propDefaults: {
+            attached: true,
+        },
+        propInfo: {
+            ...beCnfg.propInfo,
+            assign: {},
+            scope: {},
+        },
+        actions: {
+            hydrate: {
+                ifAllOf: ['attached']
+            },
+            onAssign: {
+                ifAllOf: ['assign', 'resolved']
+            }
+        }
+    };
     async hydrate(self) {
         const { assign, enhancedElement } = self;
         if (assign instanceof Object) {
@@ -70,25 +79,5 @@ export class BeScoped extends BE {
         }
     }
 }
-const tagName = 'be-scoped';
-const ifWantsToBe = 'scoped';
-const upgrade = '*';
-const xe = new XE({
-    config: {
-        tagName,
-        propDefaults: {
-            isC: true
-        },
-        propInfo: {
-            ...propInfo
-        },
-        actions: {
-            hydrate: 'isC',
-            onAssign: {
-                ifAllOf: ['assign', 'resolved']
-            },
-        }
-    },
-    superclass: BeScoped
-});
-register(ifWantsToBe, upgrade, tagName);
+await BeScoped.bootUp();
+export { BeScoped };

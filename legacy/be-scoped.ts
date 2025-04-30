@@ -1,20 +1,29 @@
-import {BE, propDefaults, propInfo} from 'be-enhanced/BE.js';
-import {BEConfig} from 'be-enhanced/types';
-import {XE} from 'xtal-element/XE.js';
-import {Actions, AllProps, AP, PAP, ProPAP} from '../types';
-import {register} from 'be-hive/register.js';
+import {config as beCnfg} from 'be-enhanced/config.js';
+import {BE, BEConfig} from 'be-enhanced/BE.js';
+import {Actions, AllProps, AP, PAP, ProPAP} from './types';
+import { Positractions, PropInfo } from 'trans-render/froop/types';
+import {IEnhancement,  BEAllProps} from 'trans-render/be/types';
 import {PropertyBag} from 'trans-render/lib/PropertyBag.js';
 
-export class BeScoped extends BE<AP, Actions> implements Actions{
-
-    static  override get beConfig(){
-        return {
-            parse: true,
-            primaryPropReq: true,
-            primaryProp: 'assign',
-            stateProp: 'scope'
-        } as BEConfig<AP>
-    }
+class BeScoped extends BE implements Actions{
+    static override config: BEConfig<AllProps & BEAllProps, Actions & IEnhancement, any> = {
+        propDefaults:{
+            attached: true,
+        },
+        propInfo:{
+            ...beCnfg.propInfo,
+            assign:{},
+            scope: {},
+        },
+        actions:{
+            hydrate:{
+                ifAllOf: ['attached']
+            },
+            onAssign: {
+                ifAllOf: ['assign', 'resolved']
+            }
+        }
+    };
     async hydrate(self: this): ProPAP {
         const {assign, enhancedElement} = self;
         if(assign instanceof Object){
@@ -76,31 +85,8 @@ export class BeScoped extends BE<AP, Actions> implements Actions{
     }
 }
 
+await BeScoped.bootUp();
 
+interface BeScoped extends AP{}
 
-export interface BeScoped extends AllProps{}
-
-const tagName = 'be-scoped';
-const ifWantsToBe = 'scoped';
-const upgrade = '*';
-
-const xe = new XE<AP, Actions>({
-    config:{
-        tagName,
-        propDefaults: {
-            isC: true
-        },
-        propInfo: {
-            ...propInfo
-        },
-        actions: {
-            hydrate: 'isC',
-            onAssign: {
-                ifAllOf: ['assign', 'resolved']
-            },
-        }
-    },
-    superclass: BeScoped
-});
-
-register(ifWantsToBe, upgrade, tagName);
+export {BeScoped}

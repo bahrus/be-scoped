@@ -52,10 +52,10 @@ What this does:
 "Attaches itself" into the "ish" view models that are attached (by mount-observer) to the table and tr elements:
 
 ```JavaScript
-
-if(oTR.ish === undefined) oTR.ish = {};
-if(oTR.ish.scopedPeers === undefined) oTR.ish.scopedPeers = new Set();
-oTR.ish.scopedPeers.add(new WeakRef($0));
+if(!$0.id){
+    $0.id = 'be-scoped-' + counter++;
+    oTR.itemRef += ' ' + $0.id;
+}
 ```
 
 
