@@ -53,7 +53,7 @@ class BeScoped extends BE {
         const {upSearch} = await import('trans-render/lib/upSearch.js');
         const {getCount} = await import('trans-render/dss/tref/getCount.js');
         const { parsedNames, enhancedElement, emc } = self;
-        const {enhPropKey} = emc;
+        const {base} = emc;
         for(const name of parsedNames) {
             const cssQuery = `[itemscope="${name}"]`;
             const el = upSearch(enhancedElement, cssQuery);
@@ -61,7 +61,7 @@ class BeScoped extends BE {
                 throw 404;
             }
             if(!enhancedElement.id){
-                enhancedElement.id = `${enhPropKey}-${getCount(enhPropKey)}`;
+                enhancedElement.id = `${base}-${getCount(base + '')}`;
             }
             let itemref = el.getAttribute('itemref') || '';
             itemref += ' ' + enhancedElement.id;
