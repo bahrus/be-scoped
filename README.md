@@ -1,4 +1,4 @@
-# be-scoped (🎯) [WIP]
+# be-scoped (🎯)
 
 
 
