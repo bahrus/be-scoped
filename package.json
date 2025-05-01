@@ -12,7 +12,9 @@
   "module": "be-scoped.js",
   "exports": {
     ".": "./be-exportable.js",
-    "./be-exportable.js": "./be-exportable.js"
+    "./be-exportable.js": "./be-exportable.js",
+    "./emc.js": "./emc.js",
+    "./🎯.js": "./🎯.js"
   },
   "files": [
     "*.js",
