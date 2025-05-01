@@ -23,3 +23,6 @@ export const emc = {
         return BeScoped;
     }
 };
+
+const mose = seed(emc);
+MountObserver.synthesize(document, BeHive, mose);
