@@ -14,6 +14,7 @@ export const emc = {
             mapsTo: 'names',
         }
     },
+    mapEmcTo: 'emc',
     enhPropKey: 'beScoped',
     importEnh: async () => {
         const { BeScoped } = 

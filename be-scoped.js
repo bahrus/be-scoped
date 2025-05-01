@@ -2,10 +2,11 @@
 import { propInfo, rejected, resolved } from 'be-enhanced/cc.js';
 import { BE } from 'be-enhanced/BE.js';
 import {dispatchEvent as de} from 'trans-render/positractions/dispatchEvent.js';
+import {splitRefs} from 'mount-observer/itemRefUtils/splitRefs.js';
 /** @import {BEConfig, IEnhancement, BEAllProps} from './ts-refs/be-enhanced/types.d.ts' */
 /** @import {Actions, PAP, AllProps, AP} from './ts-refs/be-scoped/types' */;
 
-const sym = Symbol.for('q9jJhtnAZEaOOLZ0+b8cLA');
+//const sym = Symbol.for('q9jJhtnAZEaOOLZ0+b8cLA');
 /**
  * @implements {Actions}
  * 
@@ -19,6 +20,7 @@ class BeScoped extends BE {
         propInfo:{
             names: {},
             parsedNames: {},
+            emc: {},
         },
         compacts:{
             when_names_changes_call_parse: 0,
@@ -36,7 +38,7 @@ class BeScoped extends BE {
      */
     parse(self) {
         const { names } = self;
-        const parsedNames = names.split(' ').map(name => name.trim()).filter(name => name.length > 0);
+        const parsedNames = splitRefs(names);
         return /** @type {PAP}*/({
             parsedNames
         });
@@ -49,11 +51,9 @@ class BeScoped extends BE {
      */
     async hydrate(self) {
         const {upSearch} = await import('trans-render/lib/upSearch.js');
-        const { parsedNames, enhancedElement } = self;
-        const rootNode = enhancedElement.getRootNode();
-        if(!rootNode[sym]){
-            rootNode[sym] = 0;
-        }
+        const {getCount} = await import('trans-render/dss/tref/getCount.js');
+        const { parsedNames, enhancedElement, emc } = self;
+        const {enhPropKey} = emc;
         for(const name of parsedNames) {
             const cssQuery = `[itemscope="${name}"]`;
             const el = upSearch(enhancedElement, cssQuery);
@@ -61,11 +61,11 @@ class BeScoped extends BE {
                 throw 404;
             }
             if(!enhancedElement.id){
-                enhancedElement.id = 'be-scoped-' + rootNode[sym]++;
+                enhancedElement.id = `${enhPropKey}-${getCount(enhPropKey)}`;
             }
             let itemref = el.getAttribute('itemref') || '';
             itemref += ' ' + enhancedElement.id;
-            el.setAttribute('itemref', itemref);
+            el.setAttribute('itemref', itemref.trim());
         }
         return /** @type {PAP}*/({
             resolved: true,
