@@ -1,6 +1,5 @@
-# be-scoped (🎯) [TODO]
+# be-scoped (🎯) [WIP]
 
-be-scoped is in the process of being resurrected, possibly.
 
 
 ```html
@@ -33,7 +32,7 @@ be-scoped is in the process of being resurrected, possibly.
                 <td><span itemprop=total></span> of <span -o=totalMedalCount></span></td>
             </tr>
             <template be-switched="on when ^({tr})~plusMinus?.isExpanded">
-                <tr be-scoped-into="country-medal-count and national-medal-list">
+                <tr be-scoped="country-medal-count national-medal-list">
                     <td colspan=7>
                         <medal-ment></medal-ment>
                     </td>
@@ -45,7 +44,6 @@ be-scoped is in the process of being resurrected, possibly.
 </table>
 ```
 
-" and " is optional
 
 What this does:
 
