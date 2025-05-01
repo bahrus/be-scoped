@@ -2,7 +2,7 @@
 import { propInfo, rejected, resolved } from 'be-enhanced/cc.js';
 import { BE } from 'be-enhanced/BE.js';
 import {dispatchEvent as de} from 'trans-render/positractions/dispatchEvent.js';
-import {splitRefs} from 'mount-observer/itemRefUtils/splitRefs.js';
+
 /** @import {BEConfig, IEnhancement, BEAllProps} from './ts-refs/be-enhanced/types.d.ts' */
 /** @import {Actions, PAP, AllProps, AP} from './ts-refs/be-scoped/types' */;
 
@@ -36,7 +36,8 @@ class BeScoped extends BE {
      * @param {AP & BEAllProps} self 
      * @returns 
      */
-    parse(self) {
+    async parse(self) {
+        const {splitRefs} = await import('mount-observer/itemRefUtils/splitRefs.js');
         const { names } = self;
         const parsedNames = splitRefs(names);
         return /** @type {PAP}*/({
