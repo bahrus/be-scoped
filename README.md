@@ -1,5 +1,6 @@
 # be-scoped (🎯)
 
+NB:  Unclear if this provides value-add at this point...
 
 
 ```html
@@ -32,7 +33,7 @@
                 <td><span itemprop=total></span> of <span -o=totalMedalCount></span></td>
             </tr>
             <template be-switched="on when ^({tr})~plusMinus?.isExpanded">
-                <tr be-scoped="country-medal-count national-medal-list">
+                <tr be-scoped="national-medal-list">
                     <td colspan=7>
                         <medal-ment></medal-ment>
                     </td>

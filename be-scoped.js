@@ -37,7 +37,7 @@ class BeScoped extends BE {
      * @returns 
      */
     async parse(self) {
-        const {splitRefs} = await import('mount-observer/itemRefUtils/splitRefs.js');
+        const {splitRefs} = await import('mount-observer/refid/splitRefs.js');
         const { names } = self;
         const parsedNames = splitRefs(names);
         return /** @type {PAP}*/({
